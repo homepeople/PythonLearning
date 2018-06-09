@@ -1,0 +1,121 @@
+#coding=utf-8
+#Exercise12.2
+# wdict={}
+# def word_dict(word):
+#     global wdict
+#     cdict={}
+#     for x in word:
+#         cdict[x]= cdict.get(x, 0) + 1
+#         wdict[word]=cdict
+#     return wdict
+# 
+# def most_frequent():
+#     fin=open('D:\编程\Python\Mobywords.txt')
+#     for word in fin:
+#         word=word.strip()
+#         word_dict(word)
+#     return wdict
+# 
+# def invert_dict_tuple(d):
+#     for x in d:
+#         z=x
+#         
+# def invert_dict(d):
+#     tempdict={}
+#     inverse = {}
+#     for key in d:
+#         val = d[key]
+#         tempdict=val
+#         
+#         if tuple(val,val[key]) not in inverse:
+#             inverse[tuple(val)] =[key]
+#         else:
+#             inverse[tuple(val)].append(key)
+#     return inverse
+
+# print(invert_dict(most_frequent())) 
+
+
+# from __future__ import print_function, division
+
+def signature(s):
+    """Returns the signature of this string.
+
+    Signature is a string that contains all of the letters in order.
+
+    s: string
+    """
+    # TODO: rewrite using sorted()
+    t = list(s)
+    t.sort()
+    t = ''.join(t)
+    return t
+
+def all_anagrams(filename):
+    """Finds all anagrams in a list of words.
+
+    filename: string filename of the word list
+
+    Returns: a map from each word to a list of its anagrams.
+    """
+    d = {}
+    for line in open(filename):
+        word = line.strip().lower()
+        t = signature(word)
+
+        # TODO: rewrite using defaultdict
+        if t not in d:
+            d[t] = [word]
+        else:
+            d[t].append(word)
+    return d
+
+def print_anagram_sets(d):
+    """Prints the anagram sets in d.
+
+    d: map from words to list of their anagrams
+    """
+    for v in d.values():
+        if len(v) > 1:
+            print(len(v), v)
+
+def print_anagram_sets_in_order(d):
+    """Prints the anagram sets in d in decreasing order of size.
+
+    d: map from words to list of their anagrams
+    """
+    # make a list of (length, word pairs)
+    t = []
+    for v in d.values():
+        if len(v) > 1:
+            t.append((len(v), v))
+
+    # sort in ascending order of length
+    t.sort()
+
+    # print the sorted list
+    for x in t:
+        print(x)
+
+
+def filter_length(d, n):
+    """Select only the words in d that have n letters.
+
+    d: map from word to list of anagrams
+    n: integer number of letters
+
+    returns: new map from word to list of anagrams
+    """
+    res = {}
+    for word, anagrams in d.items():
+        if len(word) == n:
+            res[word] = anagrams
+    return res
+
+if __name__ == '__main__':
+    anagram_map = all_anagrams('D:\编程\Python\Mobywords.txt')
+#     print_anagram_sets_in_order(anagram_map)
+
+    eight_letters = filter_length(anagram_map, 3)
+    print_anagram_sets_in_order(eight_letters)
+    
