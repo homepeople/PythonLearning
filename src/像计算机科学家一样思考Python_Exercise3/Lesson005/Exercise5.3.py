@@ -15,5 +15,6 @@ def is_bigger(a,b,c):
              is_bigger(b,a,c)    
          elif c>b:#如果是if则出现2个yes或no，调用2次is_bigger
              is_bigger(a,c,b)
-         
-is_bigger(1,3,3)
+             
+if __name__ == '__main__':     
+    is_bigger(1,3,3)

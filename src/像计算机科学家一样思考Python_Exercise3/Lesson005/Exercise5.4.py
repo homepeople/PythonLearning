@@ -8,5 +8,7 @@ def recurse(n,s):
         print("n=" + str(n),"s=" + str(s))
         recurse(n-1, n+s)
         print("s=" + str(s),"n=" + str(n))
-recurse(3, 0)
-#recurse(-1, 0)#its wrong,debug it please
+        
+if __name__ == '__main__':
+    recurse(3, 0)
+    #recurse(-1, 0)#its wrong,debug it please

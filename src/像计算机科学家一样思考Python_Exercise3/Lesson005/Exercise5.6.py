@@ -3,7 +3,6 @@
 import turtle
 import time
 
-
 turtle.color("White") #为了不让开始出现的箭头有颜色
 # turtle.speed(0)
 Fred=turtle.Turtle()  #Fred为turtle的实例
@@ -13,8 +12,8 @@ Fred.screen.delay(0)
 # Fred.color("White")
 Fred.hideturtle()
 
-#Koch spiral recursion
 
+#Koch spiral recursion
 def Koch(t,length,miniLength):
     if abs(length) < abs(miniLength):
          t.fd(length)
@@ -43,7 +42,7 @@ def slowsixflake(t,length,minilength):
         snowflake(t,-length,minilength)
         t.end_fill()
         if i <5:#with this "if" it would draw 5 more Koch spiral than fastsixflake，without this "if" it'll be 6 more              
-             Koch(t,-length,minilength)#return to the connection point of next flake，without this line 6 flake will stick together through the first point
+             Koch(t,-length,minilength)#move to the connection point of next flake，without this line 6 flake will stick together through the first point
              t.lt(60)  
              
 #fastsixflake only use Koch to draw the 6 flake.The whole Koch spiral will be 18            
@@ -82,27 +81,6 @@ def fastsixflake(t,length,minilength):
 #      t.write("ECCLESIASTES 1:14",font = ("Times", 18, "bold")) 
 #      t.hideturtle()
 
-# Koch(Fred,200,20) 
-Fred.penup()
-Fred.lt(90)
-Fred.fd(150)
-Fred.lt(90)
-Fred.backward(100)
-Fred.rt(180)
-Fred.pendown()
-
-# v
-if __name__=='__main__':
-    from time import clock
-    start=clock()
-#     for i in range(6):
-#         snowflake(Fred, 200, 5)
-#         Fred.lt(60)
-#     slowsixflake(Fred,200, 5)
-    fastsixflake(Fred, 200, 5)
-    finish=clock()
-    print (finish-start)
-
 # 葵花sunflower
 # def sunflower(t,times,length,angle):
 #     t.hideturtle()
@@ -139,3 +117,24 @@ if __name__=='__main__':
 #         t.fd(length/3)
 #         t.rt(60)
 #      Koch(t,length)
+
+if __name__=='__main__':
+    # Koch(Fred,200,20) 
+    Fred.penup()
+    Fred.lt(90)
+    Fred.fd(150)
+    Fred.lt(90)
+    Fred.backward(100)
+    Fred.rt(180)
+    Fred.pendown()
+    
+    from time import clock
+    start=clock()
+#     for i in range(6):
+#         snowflake(Fred, 200, 5)
+#         Fred.lt(60)
+    slowsixflake(Fred,200, 5)
+#     fastsixflake(Fred, 200, 5)
+    finish=clock()
+    print (finish-start)
+

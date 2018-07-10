@@ -14,5 +14,7 @@ def draw(t,length,n):
     draw(t,length,n-1)
     t.lt(angle)
     t.bk(length*n)
-draw(Fred,2,7)
-turtle.mainloop()
+    
+if __name__ == '__main__':
+    draw(Fred,2,7)
+    turtle.mainloop()

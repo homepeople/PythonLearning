@@ -33,7 +33,8 @@ def draw_spiral(t,nside,length=8,a=0.05,b=0.0002):
          print(dtheta)
          t.lt(dtheta)
          theta+=dtheta
-        
-draw_spiral(Fred, 200)
-# Achimedeanspiral(Fred,2,40,50)
-turtle.mainloop()
+         
+if __name__ == '__main__':       
+    draw_spiral(Fred, 200)
+    # Achimedeanspiral(Fred,2,40,50)
+    turtle.mainloop()

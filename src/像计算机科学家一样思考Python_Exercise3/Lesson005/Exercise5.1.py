@@ -25,11 +25,11 @@ def counttime(second,rinfo):
 #     result=str(int(years))+':'+str(int(months))+':'+str(int(days))+':'+str(int(hours))+':'+str(int(minutes))+':'+str(int(remainsecond))
     result=eval(rinfo)
     return result
-
-t=counttime(timer,'days')
-days=howmany(60*60*24, timer, 'times')
-hours=howmany(60*60, timer, 'times')
-minutes=howmany(60, timer, 'times')
-months=howmany(30, days, 'times')
-print(days)
-print(months)
+if __name__ == '__main__':
+    t=counttime(timer,'days')
+    days=howmany(60*60*24, timer, 'times')
+    hours=howmany(60*60, timer, 'times')
+    minutes=howmany(60, timer, 'times')
+    months=howmany(30, days, 'times')
+    print(days)
+    print(months)

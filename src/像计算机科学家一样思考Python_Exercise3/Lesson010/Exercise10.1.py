@@ -21,7 +21,7 @@ print ('\n遍历列表方法3 （设置遍历开始初始位置，只改变了�
 for i, val in enumerate(tryalist, 2):
      print ("序号：%s   值：%s" % (i + 1, val)) 
 
-
+  
 def num_sum(alist):#sum list within only number, return the total value
     sum=0
     for num in alist:

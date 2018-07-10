@@ -14,4 +14,5 @@ def check_fermat(a,b,c,n):
             result='Fermat are correct'
     print(result)
     
-check_fermat(3.1, 4.4, 5, 3.2)
+if __name__ == '__main__':   
+    check_fermat(3.1, 4.4, 5, 3.2)

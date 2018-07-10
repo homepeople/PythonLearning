@@ -40,6 +40,7 @@ def arc_flower(t,r,angle,nleaf):
     for i in range(nleaf):
         t.lt(step_angle+180-angle)#因为要回头所以要加上180
         arc_leaf(t,r,angle)
-
-arc_flower(bob,200,60,12)
-turtle.mainloop()
+        
+if __name__ == '__main__':
+    arc_flower(bob,200,60,12)
+    turtle.mainloop()

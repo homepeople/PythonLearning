@@ -11,7 +11,7 @@ def saperate_word(word,oddoreven):
     else:
         for i in range(0, len(word), 2):
              newword=newword+word[i]
-    return newword  
+    return newword
 def saperate_wordto3(word,oddoreven):
     newword=''
     i=0
@@ -25,7 +25,8 @@ def saperate_wordto3(word,oddoreven):
         for i in range(2, len(word), 3):  
              newword=newword+word[i]      
     return newword  
-def find_chainwords(wordlist):  
+
+def find_chainwords(wordlist):
     chainwords=[]
     for wholeword in wordlist:
         evenword=saperate_wordto3(wholeword, 'even')
