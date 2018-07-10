@@ -1,5 +1,5 @@
 #coding=UTF-8
-#largest factor or prime
+#largest and minimum factor or prime
 #最大公约数或是素数(质数)
 
 def showMaxFactor(num): 
@@ -13,7 +13,7 @@ def showMaxFactor(num):
         else: 
             print (eachNum, 'is prime' )
         
-def FastPrintPrime(num):
+def minimumPrintPrime(num):
     i = 2
     while(i < num):
         j = 2
@@ -29,7 +29,7 @@ def FastPrintPrime(num):
 if __name__ == '__main__':
     from time import clock
     start=clock()
-#     FastPrintPrime(10000)
+#     minimumPrintPrime(10000)'faster then showmaxfactor
     showMaxFactor(10000) 
     finish=clock()
     print (finish-start)
