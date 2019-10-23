@@ -1,10 +1,10 @@
 #coding=utf-8
 #需求：比较2个相似文件的每一行，如果不同就把两句话都打印出来,比较结果输入到新的文件
 #注意：2个源文件格式不100%相似，因此需要先更改格式为每句话1行，每行以章节序号开头，然后才能开始对相同序号的进行对比。
-ChapterName='以西结书'
+ChapterName='彼得前书'
 pOld = 'D:/Programming/Bible/bi12/'+ChapterName+'bi12.txt'#老版本圣经存放的路径
 pNew = 'D:/Programming/Bible/nwt/'+ChapterName+'nwt.txt'#新版本圣经存放的路径
-PResult='D:/Programming/Bible/result/'+ChapterName+'比较结果.txt'#比较结果存放路径
+PResult='D:/Programming/Bible/result/'+ChapterName+'(nwt，bi12合参本).txt'#比较结果存放路径
 #禁止的量词单位
 '''
 量词单位前的数字不排头,杜绝量词单位排头的可能性，因为不知道量词具体的数目，因此根据需要增加或减少
@@ -30,9 +30,10 @@ def compare2files(path1,path2,resultpath):
         if line1 < len(lines):
             value2=lines[line1]
             line1 += 1   
-            str2 =removePunctuation(str(value2))#去掉除数字，字母，汉字以外的所有符号
-            str1 =removePunctuation(str(value1))
-          
+#             str2 =removePunctuation(str(value2))#去掉除数字，字母，汉字以外的所有符号
+#             str1 =removePunctuation(str(value1))
+            str1=str(value1) #合参本，保存标点符号
+            str2=str(value2)
             if str1 != str2:#内容不相同，输出到Tmp_list
                 if  str1[:1] != str2[:1]:#第一个字符不相等，则退出程序
                     print('首序列号不同'+str1[:1]+str2[:1])
@@ -40,13 +41,15 @@ def compare2files(path1,path2,resultpath):
                     
                 elif str1[1:2].isdigit() and str2[1:2].isdigit() and str1[1:2] != str2[1:2]:#第二位若都为数字，且不相等，则退出程序
                     print('次序列号不同'+str1[:2]+str2[:2])
-                    sys.exit(0)   
-                    
-                print(str1)
-                print(str2)
-                Tmp_list.append(str1)
+                    sys.exit(0)       
+#                 print(str1)
+#                 print(str2)
+                Tmp_list.append(str1.replace("\n", ""))
                 Tmp_list.append(str2)
                 diflines += 1
+            else:#合参本，如果相同经文只收录一行
+#                 print(str1)
+                Tmp_list.append(str1)
         
         allLines += 1
         
@@ -157,7 +160,7 @@ def writeLinF(alist,fileName):
        
 
 if __name__ == '__main__':
-    changeStyle(pNew,pNew)
-    changeStyle(pOld,pOld)
+#     changeStyle(pNew,pNew)
+#     changeStyle(pOld,pOld)
     compare2files(pOld,pNew,PResult)
   
