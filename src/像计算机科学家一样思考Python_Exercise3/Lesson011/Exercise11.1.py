@@ -22,7 +22,7 @@ import time
 #     print(elapsed_time, 'seconds')
 
 def make_dict():
-    fin=open('D:\编程\Python\Mobywords.txt')
+    fin=open('D:\programming\Pythonlesson001\Mobywords.txt')
     dic=dict()
     i=0
     for words in fin:

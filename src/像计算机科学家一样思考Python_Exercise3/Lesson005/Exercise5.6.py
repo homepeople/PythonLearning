@@ -65,21 +65,21 @@ def fastsixflake(t,length,minilength):
          Koch(t,-length,minilength)
          t.lt(60)
      t.end_fill()
-#      t.hideturtle()
-
-#      t.penup()
-#      t.fd(-200)
-#      t.pendown()
-#      time.sleep(1)
-#      t.color("black")
-#      t.write("look! everything was futile, a chasing after the wind.",font = ("Times", 18, "bold")) 
-#      t.penup()
-#      t.lt(90)
-#      t.fd(20)
-#      t.pendown()
-#      t.color("red")
-#      t.write("ECCLESIASTES 1:14",font = ("Times", 18, "bold")) 
-#      t.hideturtle()
+# t.hideturtle()
+#    
+# t.penup()
+# t.fd(-200)
+# t.pendown()
+# time.sleep(1)
+# t.color("black")
+# t.write("look! everything was futile, a chasing after the wind.",font = ("Times", 18, "bold")) 
+# t.penup()
+# t.lt(90)
+# t.fd(20)
+# t.pendown()
+# t.color("red")
+# t.write("ECCLESIASTES 1:14",font = ("Times", 18, "bold")) 
+# t.hideturtle()
 
 # 葵花sunflower
 # def sunflower(t,times,length,angle):
@@ -91,21 +91,27 @@ def fastsixflake(t,length,minilength):
 #     t.color("red")
 #     t.write("SunFlower")
 #     t.hideturtle()
-#     
-# sunflower(Fred, 40, 200, 110)
+#     turtle.mainloop()
+# sunflower(Fred, 40, 200, 110)    
+
 # 作者：Python玩法收集者
 # 链接：https://www.zhihu.com/question/26708591/answer/211758902
+ 
+def sunflower2(t,times,length,angle):
+    t.color("red", "black") 
+    t.begin_fill()
+    for i in range(times):
+      t.forward(length)
+      t.left(angle)
+    t.penup()
+    t.lt(45)
+    t.fd(120)
+    t.pendown()
+    
+    t.write("写轮眼")
+    t.end_fill()
+sunflower2(Fred, 40, 200, 110)
 
-# def sunflower2(t,times,length,angle):
-#     t.color("red", "yellow") 
-#     t.begin_fill()
-#     for _ in range(times):
-#       t.forward(length)
-#       t.left(angle)
-#     t.end_fill()
-# 
-# sunflower2(Fred, 40, 200, 110)
-# turtle.mainloop()
 
 #6边形和6角星各种组合，随着i和j的不同range个数而改变
 #      for i in range(6):
@@ -118,23 +124,24 @@ def fastsixflake(t,length,minilength):
 #         t.rt(60)
 #      Koch(t,length)
 
-if __name__=='__main__':
-    # Koch(Fred,200,20) 
-    Fred.penup()
-    Fred.lt(90)
-    Fred.fd(150)
-    Fred.lt(90)
-    Fred.backward(100)
-    Fred.rt(180)
-    Fred.pendown()
-    
-    from time import clock
-    start=clock()
-#     for i in range(6):
-#         snowflake(Fred, 200, 5)
-#         Fred.lt(60)
-    slowsixflake(Fred,200, 5)
-#     fastsixflake(Fred, 200, 5)
-    finish=clock()
-    print (finish-start)
-
+# if __name__=='__main__':
+#     # Koch(Fred,200,20) 
+#     Fred.penup()
+#     Fred.lt(90)
+#     Fred.fd(150)
+#     Fred.lt(90)
+#     Fred.backward(100)
+#     Fred.rt(180)
+#     Fred.pendown()
+#     
+#     from time import clock
+#     start=clock()
+# #     for i in range(6):
+# #         snowflake(Fred, 200, 5)
+# #         Fred.lt(60)
+# #     slowsixflake(Fred,500, 5)
+#     fastsixflake(Fred, 500, 5)
+#     finish=clock()
+#     print (finish-start)
+turtle.mainloop()
+   
