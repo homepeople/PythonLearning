@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 import re
 import time
 from tkinter import *
-from pip._vendor.msgpack.fallback import newlist_hint
 
 '''
 Regular Expression function to solve string
@@ -15,19 +14,21 @@ def getLeftNumber(tmpStr):#input string,return all number of string at left side
         if tmpStr.isdigit():
             return digitNum
         
-def cut_out(StrA,StrB,Tstr):#find the first value between StrA and StrB in Tstr
+def cut_out(StrA,StrB,Tstr):#find the value between StrA and StrB from Tstr.在Tstr中截取StrA到StrB之间的值
     result = re.findall(".*%s(.*)%s.*" %(StrA,StrB),Tstr)
     for i in result:
        return i
   
-'''
-Get Information from Original URL
-'''
+  
+    '''
+    Get Information from Original URL
+    '''
+
 def getVersion(url):#get language + version of Bible from original url,return a string
     version='('+ cut_out('lp-','/\d+/\d+',url) + ')'   
     return version  
 
-def getBookNumber(url):#get BookNumber of Bible from original url,return a string
+def getBookNumber(url):#get BookNumber of Bible from original url,return it as a string.从原URL中获取圣经书籍数字，并返回该数字的
     BookNumber=cut_out('/\w+/','/\d+',url)
     return BookNumber
 
@@ -113,7 +114,7 @@ def combine_Tuples(versionT,*tupleX): #zip tuples as a list of dictionary unit
     
     return newList
 
-def printListWithDictUnit(newList):#Print All List Unit that contain Dictionary 
+def printListWithDictUnit(newList):#Print every List Unit which is Dictionary 
     for dict in newList:#print result 
         if dict!='':
             for key,value in dict.items():
@@ -121,7 +122,7 @@ def printListWithDictUnit(newList):#Print All List Unit that contain Dictionary
         else:
             print(dict)
                   
-def merg_dict(list):#merg many dictionary in list
+def merg_dict(list):#merg many dictionary of a list
     dict2={}
     for dict1 in list:
         dict2=dict_union(dict1, dict2)
@@ -131,7 +132,7 @@ def merg_dict(list):#merg many dictionary in list
 def dict_union(dica, dicb):#unite 2 dictionary to new one,return new one
     dic={}
     for key in dica:
-        if dicb.get(key):
+        if dicb.get(key):#if key are same,plus their vaules
             dic[key]=dica[key]+dicb[key]
         else:
             dic[key]=dica[key]
@@ -188,15 +189,11 @@ def CallAllBack():
     printListWithDictUnit(newList)
 
 if __name__ == '__main__':
-#      MainUI
-    app=Application()
-    app.master.title("Sample Application")
+#      app=Application()
+#      app.master.title("Sample Application")
+#      app.mainloop()
 
-    app.mainloop()
-    #CallAllBack()
+    CallAllBack()
+    
 #      MainUI()
-#      book='2'
-#      chapter='3'
-#      url='https://wol.jw.org/en/wol/b/r1/lp-e/nwt/'+book+'/'+chapter+'#study=discover'
-#      print(getVersion(url)+ getBookNumber(url)+getChapterNumber(url))
 
