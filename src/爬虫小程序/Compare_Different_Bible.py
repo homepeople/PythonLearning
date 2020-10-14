@@ -297,11 +297,11 @@ def call_main(url):
 if __name__ == '__main__':
 
     BOOK='2'         #BOOK 1 is Genesis ，66 is Revelation,and so on
-    TempChap = 1
+    TempChap = 0
     CHAPTER ='' 
-    Chapters=("33")
-    while TempChap <= len(Chapters):
-        CHAPTER = Chapters[TempChap - 1]
+    Chapters=("33",)
+    while TempChap < len(Chapters):
+        CHAPTER = Chapters[TempChap]
         url1='https://wol.jw.org/cmn-Hans/wol/b/r23/lp-chs/nwt/'+BOOK+'/'+CHAPTER+'#study=discover'
         url2='https://wol.jw.org/cmn-Hans/wol/b/r23/lp-chs/bi12/'+BOOK+'/'+CHAPTER+'#study=discover'
         url3='https://wol.jw.org/cmn-Hans/wol/b/r23/lp-chs/sbi1/'+BOOK+'/'+CHAPTER+'#study=discover'
