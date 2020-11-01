@@ -168,19 +168,20 @@ def divide_string_by_begin_Number_of_senctence_withException(tmpStr,url): #divid
                     aheadstr = tmpStr[positionN:positionN + numberLength]
                      
                     if  int(aheadstr) - verNum == 1 or (aheadstr == chaNum and verNum == 0): #first Number is number of verse or chapter句头数字等于节数或章数
-                        while len(Tmp_Tuple) < int(aheadstr)-1 and verNum > 1:#THE Exception for book 43 chapter 8 only,length of tuple should as same as verNum
-                            Tmp_Tuple += (None,)
-                            
-                        if aheadstr != '30' or  len(tmpStr[positionL:]) > 6:#for Numbers chapter 20 verse 29
+                        if  len(tmpStr[positionN:]) > 8:#for Numbers chapter 20 verse 29
                             Tmp_Tuple += (tmpStr[positionL:positionN],)
-                            positionL = positionN  
-                            verNum += 1 
-                                     
-                    elif aheadstr == '12' and verNum == 1 :#THE Exception for book 43 chapter 8 only,because the chapter start at verse 12
+                            positionL = positionN
+                            verNum += 1
+                              
+                    elif len(tmpStr[positionL:positionN]) < 5 and verNum == 1:#THE Exception for book 43 chapter 8 only,because the chapter start at verse 12 #小于5因为最大章数为3位数然后加1个空格，适用于所有开始节数大于2的章
                         Tmp_Tuple += (tmpStr[positionL:positionN],)
-                        positionL = positionN  
-                        verNum = 12   
-                               
+                        
+                        while len(Tmp_Tuple) < int(aheadstr) :
+                            verNum += 1
+                            Tmp_Tuple += (verNum,)
+                            
+                        positionL = positionN 
+                        verNum += 1                          
         positionN += 1
    
     Tmp_Tuple += (tmpStr[positionL:positionN],)#add the last line 加入最后一行数据
@@ -296,10 +297,10 @@ def call_main(url):
 
 if __name__ == '__main__':
 
-    BOOK='2'         #BOOK 1 is Genesis ，66 is Revelation,and so on
+    BOOK='43'         #BOOK 1 is Genesis ，66 is Revelation,and so on
     TempChap = 0
     CHAPTER ='' 
-    Chapters=("33",)
+    Chapters=("8",)
     while TempChap < len(Chapters):
         CHAPTER = Chapters[TempChap]
         url1='https://wol.jw.org/cmn-Hans/wol/b/r23/lp-chs/nwt/'+BOOK+'/'+CHAPTER+'#study=discover'
@@ -307,5 +308,5 @@ if __name__ == '__main__':
         url3='https://wol.jw.org/cmn-Hans/wol/b/r23/lp-chs/sbi1/'+BOOK+'/'+CHAPTER+'#study=discover'
         url4='https://wol.jw.org/en/wol/b/r1/lp-e/nwt/'+BOOK+'/'+CHAPTER+'#study=discover'
         TempChap += 1
-        tupOfUrl=(url1,url2)
+        tupOfUrl=(url1,url4)
         call_main(tupOfUrl)
