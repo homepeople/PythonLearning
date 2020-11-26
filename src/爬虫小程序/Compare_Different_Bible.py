@@ -2,7 +2,7 @@
 
 '''
 compare different version of Bible by each verse,and put the different verse together, 
-if the verse content are same then the verse print once and plus their version info together
+if the verse content are exactly same then the verse print once and plus their version info together
 比较不同版本的圣经的每一节经文，并将不同版本的同一节经文放在一起，相同经文只打印一次并把版本信息合并
 '''
 import urllib.request
@@ -11,6 +11,7 @@ import re
 import itertools
 import sys
 import ThreadWithReturnValue
+
 
 '''
 Regular Expression function for string
@@ -58,7 +59,7 @@ def get_Chapter_text_Tuple(url):#get Text from html by BeautifulSoup,return it a
     TargetTitle = 'div'
     TargetID = "article"
     
-    htmls = connect_URL_test(get_html,url) #with or without decode,which one is better?
+    htmls = connect_URL_test(get_html_with_decode,url) #with or without decode,which one is better?
     
     bf =  BeautifulSoup(htmls,"html.parser")
 
@@ -84,15 +85,15 @@ def connect_URL_test(get_html_fun,url):
         return html
 
 
-# def get_html_with_decode(url,CodeStyle):#Decode Html from URL with codeType，return StringHtml
+def get_html_with_decode(url):#Decode Html from URL with codeType，return StringHtml
 
-#     response = urllib.request.urlopen(url)
+    response = urllib.request.urlopen(url)
     
-#     htmlBytes = response.read()
+    htmlBytes = response.read()
     
-#     StringHtml = htmlBytes.decode(CodeStyle)
+    StringHtml = htmlBytes.decode('utf-8')
     
-#     return StringHtml
+    return StringHtml
 
 
 def get_html(url):#get Html Without decode,return html
@@ -115,7 +116,7 @@ def divide_string_by_beggin_Number_of_senctence_withException(tmpStr,url): #divi
     chaNum = 0
     verNum = 0 
     
-    tmpStr = tmpStr.replace('\n','').replace('+','').replace('*','').replace('. ','.').replace('。 ','。').replace('? ','?').replace('! ','!')
+    tmpStr = tmpStr.replace('\n',' ').replace('+','').replace('*','').replace('. ','.').replace('。 ','。').replace('? ','?').replace('! ','!')
    
     for char in tmpStr:#有数字开头的分行
           
@@ -192,6 +193,15 @@ def print_dict_unit_within_list(newList):#Print every List Unit which is Diction
         else:#print the empty line
             print(dic)
 
+def return_dict_unit_within_list(newList):#Print every List Unit which is Dictionary 
+    result='<meta charset="utf-8"/>'
+    for dic in newList:#print result 
+        if dic != '':
+            for key,value in dic.items():
+               result =result +'<div>' + '{key} {value}'.format(key = key, value = value) +'</div>'
+        else:#print the empty line
+            result = result +'<br>'
+    return result
 
 def merg_dict(list):#merg many dictionary of a list,return a dictionary
     dict2 = {}
@@ -244,11 +254,11 @@ def get_textT_from_URLT_Multi_Thread(get_str_from_Url,urlTuple):#get text tuple 
     for x in threads:
         x.start()
         
-    for x in threads:
+    for x in threads:#join to hold the progress and return the value
         textTuple = (x.join(),) + textTuple
     
     return textTuple  
-
+  
 
 def call_main(urlTuple):
 
@@ -258,26 +268,74 @@ def call_main(urlTuple):
  
     newList = combine_Tuples(versionTuple,ChapterTextTuple)#combine tuples as a list with dicttionary unit
     
-    print_dict_unit_within_list(newList) #print result
-
+    # print_dict_unit_within_list(newList) #print result
+    result=return_dict_unit_within_list(newList)
+    return result
 
 '''
  UI interface backward #draft
 '''
+from cefpython3 import cefpython as cef
+# import sys
+import platform
 
+# HTML_code = """
+# <div>hello there</div>
+# """
+
+def main(HTML_code):
+    # options = webdriver.ChromeOptions()
+    # options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    # driver = webdriver.Chrome(executable_path='<path-to-chrome>', options=options)
+    sys.excepthook = cef.ExceptHook
+    cef.Initialize()
+    cef.CreateBrowserSync(url=cef.GetDataUrl(HTML_code),
+                           window_title='Book '+BOOK+': CHAPTER '+ CHAPTER)
+    cef.MessageLoop()
+    cef.Shutdown()
+
+def main_web():
+    # check_versions()
+    sys.excepthook = cef.ExceptHook  # To shutdown all CEF processes on error
+    cef.Initialize()
+    cef.CreateBrowserSync(url="https://wol.jw.org/",
+                          window_title="Hello Friend!")
+    cef.MessageLoop()
+    cef.Shutdown()
+
+
+
+def check_versions():
+    ver = cef.GetVersion()
+    print("[hello_world.py] CEF Python {ver}".format(ver=ver["version"]))
+    print("[hello_world.py] Chromium {ver}".format(ver=ver["chrome_version"]))
+    print("[hello_world.py] CEF {ver}".format(ver=ver["cef_version"]))
+    print("[hello_world.py] Python {ver} {arch}".format(
+           ver=platform.python_version(),
+           arch=platform.architecture()[0]))
+    assert cef.__version__ >= "57.0", "CEF Python v57.0+ required to run this"
+    
 if __name__ == '__main__':
-
-        BOOK='39'          #BOOK 1 is Genesis, 66 is Revelation,and so on
+        # main_web()
+        BOOK='41'          #BOOK 1 is Genesis, 66 is Revelation,and so on
         TempChap = 0
         CHAPTER=""
-        Chapters = ('3',)
+        Chapters = ('16','15')
+        
         while TempChap <  len(Chapters):
             CHAPTER=Chapters[TempChap]
             url1='https://wol.jw.org/cmn-Hans/wol/b/r23/lp-chs/nwt/'+BOOK+'/'+CHAPTER+'#study=discover'#新世界13年译本
             url2='https://wol.jw.org/cmn-Hans/wol/b/r23/lp-chs/bi12/'+BOOK+'/'+CHAPTER+'#study=discover'#新世界83年译本
             url3='https://wol.jw.org/cmn-Hans/wol/b/r23/lp-chs/sbi1/'+BOOK+'/'+CHAPTER+'#study=discover'#和合本
-            url4='https://wol.jw.org/en/wol/b/r1/lp-e/nwt/'+BOOK+'/'+CHAPTER+'#study=discover'#New World Translation
+            url4='https://wol.jw.org/en/wol/b/r1/lp-e/nwt/'+BOOK+'/'+CHAPTER+'#study=discover'#New World Translation 2013
             url5= 'https://wol.jw.org/en/wol/b/r1/lp-e/by/'+BOOK+'/'+CHAPTER+'#study=discover'#The Bible in Living English
+            url6='https://wol.jw.org/en/wol/b/r1/lp-e/bi22/'+BOOK+'/'+CHAPTER+'#study=discover'#American Standard Version
+            url7='https://wol.jw.org/en/wol/b/r1/lp-e/bi10/'+BOOK+'/'+CHAPTER+'#study=discover'#King James Version
+
             TempChap += 1
-            urlTuple=(url1,url2,url3,url4,url5)
-            call_main(urlTuple)
+            urlTuple=(url2,url5,url4)
+            # call_main(urlTuple)
+            HTML_code= call_main(urlTuple)
+            #print(HTML_code)
+          
+            main(HTML_code)
