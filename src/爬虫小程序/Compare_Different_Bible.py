@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 
 '''
-compare different version of Bible by each verse,and put the different verse together, 
-if the verse content are exactly same then the verse print once and plus their version info together
+This module will catch at least one Bible Chapter from the different Bible version of Jw.org and 
+Compare different version of Bible by each verse,and print the same number of
+each verse together,also print the version of the verse after it. 
+If the verse content are exactly same then the verse just print once and plus their
+version info together and print those after the verse.
 比较不同版本的圣经的每一节经文，并将不同版本的同一节经文放在一起，相同经文只打印一次并把版本信息合并
+
 '''
 import urllib.request
 from bs4 import BeautifulSoup
@@ -11,8 +15,7 @@ import re
 import itertools
 import sys
 import ThreadWithReturnValue
-
-
+import os
 '''
 Regular Expression function for string
 '''
@@ -56,10 +59,10 @@ Get Text from Html of URL
 '''
 def get_Chapter_text_Tuple(url):#get Text from html by BeautifulSoup,return it as a tuple
     
-    TargetTitle = 'div'
+    TargetTitle = "article"
     TargetID = "article"
     
-    htmls = connect_URL_test(get_html_with_decode,url) #with or without decode,which one is better?
+    htmls = connect_URL_test(get_html,url) #with or without decode,which one is better?
     
     bf =  BeautifulSoup(htmls,"html.parser")
 
@@ -76,10 +79,10 @@ def connect_URL_test(get_html_fun,url):
         html = get_html_fun(url)
     except urllib.request.HTTPError as exp:
         print(exp.code)
-        sys.exit(0)
+        os._exit()
     except urllib.request.URLError as exp:
         print(exp.reason)
-        sys.exit(0)
+        os._exit()
     else:
         print("loaded: %s" % url);
         return html
@@ -193,15 +196,17 @@ def print_dict_unit_within_list(newList):#Print every List Unit which is Diction
         else:#print the empty line
             print(dic)
 
+
 def return_dict_unit_within_list(newList):#Print every List Unit which is Dictionary 
     result='<meta charset="utf-8"/>'
     for dic in newList:#print result 
         if dic != '':
-            for key,value in dic.items():
+            for key,value in dic.items():#return the info with html format
                result =result +'<div>' + '{key} {value}'.format(key = key, value = value) +'</div>'
-        else:#print the empty line
-            result = result +'<br>'
+        else:#add empty line in html
+            result = result +'<br><br/>' 
     return result
+
 
 def merg_dict(list):#merg many dictionary of a list,return a dictionary
     dict2 = {}
@@ -243,6 +248,7 @@ def get_textT_from_URLT(get_str_from_Url,urlTuple):#get text tuple from url tupl
         
     return textTuple   
 
+
 def get_textT_from_URLT_Multi_Thread(get_str_from_Url,urlTuple):#get text tuple from url tuple,return a tuple
     textTuple = ()  
     threads=[]
@@ -262,68 +268,55 @@ def get_textT_from_URLT_Multi_Thread(get_str_from_Url,urlTuple):#get text tuple 
 
 def call_main(urlTuple):
 
-    versionTuple = get_textT_from_URLT(get_version, urlTuple)#get version as tuple
-
-    ChapterTextTuple = get_textT_from_URLT_Multi_Thread(get_Chapter_text_Tuple, urlTuple)#get chapter text as tuple
- 
+    versionTuple = get_textT_from_URLT_Multi_Thread(get_version, urlTuple)#get version as tuple
+    try:
+        ChapterTextTuple = get_textT_from_URLT_Multi_Thread(get_Chapter_text_Tuple, urlTuple)#get chapter text as tuple
+    except (ZeroDivisionError,Exception):
+        print(ZeroDivisionError,":",Exception)
+        sys.exit()
     newList = combine_Tuples(versionTuple,ChapterTextTuple)#combine tuples as a list with dicttionary unit
     
     # print_dict_unit_within_list(newList) #print result
     result=return_dict_unit_within_list(newList)
+
     return result
+
 
 '''
  UI interface backward #draft
 '''
 from cefpython3 import cefpython as cef
-# import sys
-import platform
 
-# HTML_code = """
-# <div>hello there</div>
-# """
 
-def main(HTML_code):
-    # options = webdriver.ChromeOptions()
-    # options.add_experimental_option('excludeSwitches', ['enable-logging'])
-    # driver = webdriver.Chrome(executable_path='<path-to-chrome>', options=options)
+def mainUI(HTML_code):
+    # check_versions()
     sys.excepthook = cef.ExceptHook
     cef.Initialize()
     cef.CreateBrowserSync(url=cef.GetDataUrl(HTML_code),
                            window_title='Book '+BOOK+': CHAPTER '+ CHAPTER)
     cef.MessageLoop()
-    cef.Shutdown()
+    # cef.Shutdown()
 
-def main_web():
-    # check_versions()
-    sys.excepthook = cef.ExceptHook  # To shutdown all CEF processes on error
-    cef.Initialize()
-    cef.CreateBrowserSync(url="https://wol.jw.org/",
-                          window_title="Hello Friend!")
-    cef.MessageLoop()
-    cef.Shutdown()
+# def check_versions():
+    # ver = cef.GetVersion()
+    # print("[hello_world.py] CEF Python {ver}".format(ver=ver["version"]))
+    # print("[hello_world.py] Chromium {ver}".format(ver=ver["chrome_version"]))
+    # print("[hello_world.py] CEF {ver}".format(ver=ver["cef_version"]))
+    # print("[hello_world.py] Python {ver} {arch}".format(
+    #        ver=platform.python_version(),
+    #        arch=platform.architecture()[0]))
+    # assert cef.__version__ >= "57.0", "CEF Python v57.0+ required to run this"
+  
 
-
-
-def check_versions():
-    ver = cef.GetVersion()
-    print("[hello_world.py] CEF Python {ver}".format(ver=ver["version"]))
-    print("[hello_world.py] Chromium {ver}".format(ver=ver["chrome_version"]))
-    print("[hello_world.py] CEF {ver}".format(ver=ver["cef_version"]))
-    print("[hello_world.py] Python {ver} {arch}".format(
-           ver=platform.python_version(),
-           arch=platform.architecture()[0]))
-    assert cef.__version__ >= "57.0", "CEF Python v57.0+ required to run this"
-    
 if __name__ == '__main__':
-        # main_web()
-        BOOK='41'          #BOOK 1 is Genesis, 66 is Revelation,and so on
+        BOOK='1'          #BOOK 1 is Genesis, 66 is Revelation,and so on
         TempChap = 0
         CHAPTER=""
-        Chapters = ('16','15')
-        
+        Chapters = ('1',)
+        resultList=[]
         while TempChap <  len(Chapters):
             CHAPTER=Chapters[TempChap]
+
             url1='https://wol.jw.org/cmn-Hans/wol/b/r23/lp-chs/nwt/'+BOOK+'/'+CHAPTER+'#study=discover'#新世界13年译本
             url2='https://wol.jw.org/cmn-Hans/wol/b/r23/lp-chs/bi12/'+BOOK+'/'+CHAPTER+'#study=discover'#新世界83年译本
             url3='https://wol.jw.org/cmn-Hans/wol/b/r23/lp-chs/sbi1/'+BOOK+'/'+CHAPTER+'#study=discover'#和合本
@@ -332,10 +325,9 @@ if __name__ == '__main__':
             url6='https://wol.jw.org/en/wol/b/r1/lp-e/bi22/'+BOOK+'/'+CHAPTER+'#study=discover'#American Standard Version
             url7='https://wol.jw.org/en/wol/b/r1/lp-e/bi10/'+BOOK+'/'+CHAPTER+'#study=discover'#King James Version
 
-            TempChap += 1
-            urlTuple=(url2,url5,url4)
-            # call_main(urlTuple)
+            
+            urlTuple=(url4,url5,url6,url7)
             HTML_code= call_main(urlTuple)
-            #print(HTML_code)
-          
-            main(HTML_code)
+            TempChap += 1
+            mainUI(HTML_code)
+      
