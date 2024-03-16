@@ -1,5 +1,7 @@
 #coding=utf-8
 #Exercise4.1
+#1. Draw a stack diagram that shows the state of the program while executing circle(bob, radius). You can do the arithmetic by hand or add print statements to the code.
+#1. 绘制堆栈图，显示执行 circle(bob, radius) 时的程序状态。您可以手动运算或在代码中添加打印语句。或在代码中添加打印语句。
 import turtle
 import math
 
