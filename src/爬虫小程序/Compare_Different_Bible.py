@@ -19,7 +19,7 @@ import os
 '''
 Regular Expression function for string
 '''
-def get_left_number(tmpStr):#input string,return all number of string at left side,return it as a string.输入字符串，返回靠左连续数字的位数
+def get_left_number(tmpStr):#input string,return all number of string at left side,return the length of the string.输入字符串，返回靠左连续数字的位数
     for numberLength in range(len(tmpStr),0,-1):
         tmpStr = tmpStr[0:numberLength]
         
