@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 '''
-This module will catch at least one Bible Chapter from the different Bible version of Jw.org and 
+This module will catch at least one Bible verse from the different Bible version of Jw.org and 
 Compare different version of Bible by each verse,and print the same number of
 each verse together,also print the version of the verse after it. 
 If the verse content are exactly same then the verse just print once and plus their
 version info together and print those after the verse.
-比较不同版本的圣经的每一节经文，并将不同版本的同一节经文放在一起，相同经文只打印一次并把版本信息合并
+比较不同版本的圣经的一节或多节经文，并将不同版本的同一节经文放在一起，相同经文只打印一次并把版本信息合并
 
 '''
 import urllib.request
